@@ -14,15 +14,15 @@
   "license": "ISC",
   "devDependencies": {
 
+  },
+  "dependencies": {
     "autoprefixer": "^10.2.4",
     "cookie-parser": "^1.4.5",
     "crypto-js": "^4.0.0",
     "postcss": "^8.2.6",
     "tailwindcss": "^2.0.3",
     "ts-loader": "^8.0.17",
-    "tsc-watch": "^4.2.9"
-  },
-  "dependencies": {
+    "tsc-watch": "^4.2.9",
     "@types/axios": "^0.14.0",
     "@types/body-parser": "^1.19.0",
     "@types/cookie-parser": "^1.4.2",
