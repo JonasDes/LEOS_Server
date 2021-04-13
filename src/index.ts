@@ -23,7 +23,7 @@ export { ioServer, diveraHandler }
 // new EtbPDF("602ac22c8bb6c947a06a4106")
 // new AlarmPDF("606ba8c98f4aed2298dfcfb0")
 
-const server = http.listen(3000, () => {
+const server = http.listen(process.env.PORT || 3000, () => {
     console.log("listening on *:3000");
 });
 
@@ -33,12 +33,13 @@ app.use(cors())
 app.use('/api', apiRouter);
 
 
-mongoose.connect('mongodb://localhost:27017/mylst', {
+mongoose.connect('mongodb+srv://leos:LTH39F7FfG7Asrx5@cluster0.8eor1.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true,
     useFindAndModify: false
 })
+
 
 
 const connection = mongoose.connection;
