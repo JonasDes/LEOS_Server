@@ -12,7 +12,6 @@ const Divera_1 = __importDefault(require("./handlers/Divera"));
 const ApiHandler_1 = require("./handlers/ApiHandler");
 const cors_1 = __importDefault(require("cors"));
 const SocketHandler_1 = __importDefault(require("./handlers/SocketHandler"));
-const AlarmPDF_1 = __importDefault(require("./handlers/AlarmPDF"));
 const app = express_1.default();
 app.set("port", process.env.PORT || 3000);
 const http = require("http").Server(app);
@@ -21,7 +20,7 @@ exports.ioServer = ioServer;
 const diveraHandler = new Divera_1.default('Me21Yl8jhfJie1-oakPzr9wG585yT_IfkrwRKubHX_MciKWACRdgzK11H7dJI4Ur');
 exports.diveraHandler = diveraHandler;
 // new EtbPDF("602ac22c8bb6c947a06a4106")
-new AlarmPDF_1.default("606ba8c98f4aed2298dfcfb0");
+// new AlarmPDF("606ba8c98f4aed2298dfcfb0")
 const server = http.listen(3000, () => {
     console.log("listening on *:3000");
 });

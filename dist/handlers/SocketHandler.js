@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 class SocketHandler {
     constructor(http) {
         this.io = require("socket.io")(http);
-        this.io.on("connection", function (socket) {
+        this.io.on("connection", (socket) => {
             console.log("a user connected");
         });
     }

@@ -33,15 +33,13 @@ const vehicleHandler = {
     getById: (id) => __awaiter(void 0, void 0, void 0, function* () {
         return vehicle_model_1.default.findOne({ _id: id });
     }),
-    getNameById: () => __awaiter(void 0, void 0, void 0, function* () {
-    }),
     deleteVehicle: (vehicleID) => __awaiter(void 0, void 0, void 0, function* () {
         const vehicle = yield vehicle_model_1.default.findById(vehicleID);
         return vehicle.delete();
     }),
     updateVehicle: (vehicleID, vehicleData) => __awaiter(void 0, void 0, void 0, function* () {
         const vehicle = yield vehicle_model_1.default.findOne({ _id: vehicleID });
-        if (((vehicleData === null || vehicleData === void 0 ? void 0 : vehicleData.fms) || (vehicleData === null || vehicleData === void 0 ? void 0 : vehicleData.fms) == 0) && (vehicleData === null || vehicleData === void 0 ? void 0 : vehicleData.fms) != vehicle.fms) {
+        if (((vehicleData === null || vehicleData === void 0 ? void 0 : vehicleData.fms) || (vehicleData === null || vehicleData === void 0 ? void 0 : vehicleData.fms) === 0) && (vehicleData === null || vehicleData === void 0 ? void 0 : vehicleData.fms) !== vehicle.fms) {
             switch (vehicleData.fms) {
                 case 0:
                     index_1.ioServer.io.emit("NOTFALL", vehicle);
