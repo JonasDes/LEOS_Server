@@ -25,10 +25,6 @@ const vehicleHandler = {
         return Vehicle.findOne({ _id: id })
     },
 
-    getNameById: async () => {
-
-    },
-
     deleteVehicle: async (vehicleID: any) => {
         const vehicle = await Vehicle.findById(vehicleID)
         return vehicle.delete()
@@ -36,8 +32,8 @@ const vehicleHandler = {
 
     updateVehicle: async (vehicleID: any, vehicleData: any) => {
 
-        let vehicle = await Vehicle.findOne({ _id: vehicleID })
-        if ((vehicleData?.fms || vehicleData?.fms == 0) && vehicleData?.fms != vehicle.fms) {
+        const vehicle = await Vehicle.findOne({ _id: vehicleID })
+        if ((vehicleData?.fms || vehicleData?.fms === 0) && vehicleData?.fms !== vehicle.fms) {
             switch (vehicleData.fms) {
                 case 0:
                     ioServer.io.emit("NOTFALL", vehicle)
@@ -55,7 +51,7 @@ const vehicleHandler = {
             }
 
         } else {
-            //ioServer.io.emit("pull-fms")
+            // ioServer.io.emit("pull-fms")
             return Vehicle.findOneAndUpdate({ _id: vehicleID }, vehicleData, { new: true })
         }
 

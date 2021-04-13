@@ -12,18 +12,18 @@ router.post('/', async (req: Request, res: Response) => {
     try {
         req.body.timestamp = Date.now()
 
-        
+
         req.body.operation.editor = req.headers.user
         req.body.operation.mission = "602ac22c8bb6c947a06a4106"
         req.body.operation.timestamp = Date.now()
-        
+
         const operation = new Operation(req.body.operation)
         await operation.save()
         ioServer.io.emit("pull-operation")
         res.status(200).send(operation)
     } catch (e) {
         console.log(e);
-        
+
         res.status(500).send(e.message)
     }
 })

@@ -19,13 +19,13 @@ const router = express_1.default.Router();
 exports.vehicleRouter = router;
 // READ
 router.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let vehicles = yield VehicleHandler_1.default.getVehicles();
+    const vehicles = yield VehicleHandler_1.default.getVehicles();
     return res.status(200).send(vehicles);
 }));
-//CREATE
+// CREATE
 router.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        let vehicle = yield VehicleHandler_1.default.createVehicle(req.body);
+        const vehicle = yield VehicleHandler_1.default.createVehicle(req.body);
         return res.status(200).json(vehicle);
     }
     catch (e) {
@@ -36,7 +36,7 @@ router.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 router.post('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
-        let vehicle = yield VehicleHandler_1.default.updateVehicle(id, req.body);
+        const vehicle = yield VehicleHandler_1.default.updateVehicle(id, req.body);
         return res.status(200).json(vehicle);
     }
     catch (e) {
@@ -47,7 +47,7 @@ router.post('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 router.delete('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
-        let vehicle = yield VehicleHandler_1.default.deleteVehicle(id);
+        const vehicle = yield VehicleHandler_1.default.deleteVehicle(id);
         res.status(200).send(vehicle);
     }
     catch (e) {

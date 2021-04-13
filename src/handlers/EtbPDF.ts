@@ -31,38 +31,38 @@ class EtbPDF {
                 data.forEach((row: any) => {
 
                     console.log(row.content);
-                    
+
 
                     // row.forEach((element: any) => {
-                    //     console.log(element, element.length);                   
+                    //     console.log(element, element.length);
                     // });
-                    
+
                     const dataRow: any = [];
                     columns.forEach((column: any) => {
 
-                        
+
 
 
 
                         if (column === "editor") {
                             dataRow.push(row[column].name.toString());
                         } else if (column === "content") {
-                            var edits = "";
-                            row['edit'].forEach((element: any) => {
+                            let edits = "";
+                            row.edit.forEach((element: any) => {
                                 edits += "\n" + element?.data?.content + "\n"
 
                             });
                             dataRow.push(row[column].toString() + "\r\n" + edits);
                         } else if (column === "comment") {
-                            var edits = "";
-                            row['edit'].forEach((element: any) => {
+                            let edits = "";
+                            row.edit.forEach((element: any) => {
                                 edits += "\n" + element?.data?.comment + "\n"
 
                             });
                             dataRow.push(row[column].toString() + "\r\n" + edits);
                         } else if (column === "timestamp") {
-                            var edits = "";
-                            row['edit'].forEach((element: any) => {
+                            let edits = "";
+                            row.edit.forEach((element: any) => {
                                 edits += "\n" + new Date(element?.timestamp * 1).toLocaleTimeString('de-DE') + "\n"
 
                             });

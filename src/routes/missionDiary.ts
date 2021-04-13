@@ -16,7 +16,7 @@ router.post('/', async (req: Request, res: Response) => {
         const missionDiary = new MissionDiary(req.body)
         await missionDiary.save()
         res.status(200).send(missionDiary)
-    } catch (e) {       
+    } catch (e) {
         res.status(500).send(e.message)
     }
 })

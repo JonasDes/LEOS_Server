@@ -29,7 +29,7 @@ class Divera {
             ioClient.on('cluster-vehicle', (data) => __awaiter(this, void 0, void 0, function* () {
                 if (data.vehicle.fmsstatus_id === 10)
                     data.vehicle.fmsstatus_id = 0;
-                let vehicle = yield VehicleHandler_1.default.getByDivera(data.vehicle.id);
+                const vehicle = yield VehicleHandler_1.default.getByDivera(data.vehicle.id);
                 if (data.vehicle.fmsstatus_id != vehicle.fms) {
                     VehicleHandler_1.default.updateVehicle(vehicle._id, { fms: data.vehicle.fmsstatus_id });
                 }

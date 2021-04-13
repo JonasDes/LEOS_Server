@@ -20,7 +20,7 @@ exports.userRouter = router;
 // READ ALL
 router.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        let users = yield UserHandler_1.default.getUsers();
+        const users = yield UserHandler_1.default.getUsers();
         return res.status(200).send(users);
     }
     catch (e) {
@@ -40,7 +40,7 @@ router.get('/me', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 router.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
-        let user = yield UserHandler_1.default.getById(id);
+        const user = yield UserHandler_1.default.getById(id);
         return res.status(200).send(user);
     }
     catch (e) {

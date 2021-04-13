@@ -1,5 +1,5 @@
 import express from 'express';
-const cookieParser = require("cookie-parser");
+import cookieParser from 'cookie-parser'
 import mongoose from 'mongoose'
 import { json } from 'body-parser';
 import Divera from './handlers/Divera'
@@ -13,17 +13,17 @@ import AlarmPDF from './handlers/AlarmPDF'
 
 const app = express();
 app.set("port", process.env.PORT || 3000);
-let http = require("http").Server(app);
-let ioServer = new SocketHandler(http)
-let diveraHandler = new Divera('Me21Yl8jhfJie1-oakPzr9wG585yT_IfkrwRKubHX_MciKWACRdgzK11H7dJI4Ur')
+const http = require("http").Server(app);
+const ioServer = new SocketHandler(http)
+const diveraHandler = new Divera('Me21Yl8jhfJie1-oakPzr9wG585yT_IfkrwRKubHX_MciKWACRdgzK11H7dJI4Ur')
 
 export { ioServer, diveraHandler }
 
 
-//new EtbPDF("602ac22c8bb6c947a06a4106")
-new AlarmPDF("606ba8c98f4aed2298dfcfb0")
+// new EtbPDF("602ac22c8bb6c947a06a4106")
+// new AlarmPDF("606ba8c98f4aed2298dfcfb0")
 
-const server = http.listen(3000, function () {
+const server = http.listen(3000, () => {
     console.log("listening on *:3000");
 });
 

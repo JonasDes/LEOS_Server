@@ -40,7 +40,7 @@ const vehicleHandler = {
         return vehicle.delete();
     }),
     updateVehicle: (vehicleID, vehicleData) => __awaiter(void 0, void 0, void 0, function* () {
-        let vehicle = yield vehicle_model_1.default.findOne({ _id: vehicleID });
+        const vehicle = yield vehicle_model_1.default.findOne({ _id: vehicleID });
         if (((vehicleData === null || vehicleData === void 0 ? void 0 : vehicleData.fms) || (vehicleData === null || vehicleData === void 0 ? void 0 : vehicleData.fms) == 0) && (vehicleData === null || vehicleData === void 0 ? void 0 : vehicleData.fms) != vehicle.fms) {
             switch (vehicleData.fms) {
                 case 0:
@@ -59,7 +59,7 @@ const vehicleHandler = {
             }
         }
         else {
-            //ioServer.io.emit("pull-fms")
+            // ioServer.io.emit("pull-fms")
             return vehicle_model_1.default.findOneAndUpdate({ _id: vehicleID }, vehicleData, { new: true });
         }
     }),

@@ -5,9 +5,9 @@ class SocketHandler {
     public io: SocketIO.Server
     constructor(http: any) {
         this.io = require("socket.io")(http);
-        this.io.on("connection", function (socket: any) {
+        this.io.on("connection", (socket: any) => {
             console.log("a user connected");
-        });
+        })
     }
 }
 

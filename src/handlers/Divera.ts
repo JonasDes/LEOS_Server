@@ -18,10 +18,10 @@ class Divera {
                 console.log("connected to Divera-Websocket")
             })
 
-            ioClient.on('cluster-vehicle', async (data: any) => {               
+            ioClient.on('cluster-vehicle', async (data: any) => {
                 if (data.vehicle.fmsstatus_id === 10) data.vehicle.fmsstatus_id = 0
-                let vehicle = await vehicleHandler.getByDivera(data.vehicle.id)
-                if (data.vehicle.fmsstatus_id != vehicle.fms) {
+                const vehicle = await vehicleHandler.getByDivera(data.vehicle.id)
+                if (data.vehicle.fmsstatus_id !== vehicle.fms) {
 
                     vehicleHandler.updateVehicle(vehicle._id, { fms: data.vehicle.fmsstatus_id })
                 }

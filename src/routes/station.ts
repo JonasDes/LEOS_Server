@@ -9,7 +9,7 @@ const router = express.Router()
 router.post('/', async (req: Request, res: Response) => {
     try {
         console.log(req.body);
-        
+
         const station = new Station(req.body)
         await station.save()
         res.status(200).send(station)

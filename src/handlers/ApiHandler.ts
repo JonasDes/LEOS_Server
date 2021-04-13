@@ -13,14 +13,14 @@ import { authRouter, checkAuth } from '../routes/auth'
 
 const router = express.Router()
 
-/***************** 
+/*****************
 * ROUTES W/ AUTH *
 ******************/
 router.use('/auth', authRouter)
 
 router.use('/', checkAuth)
 
-/***************** 
+/*****************
 * ROUTES W AUTH *
 ******************/
 router.use('/station', stationRouter);

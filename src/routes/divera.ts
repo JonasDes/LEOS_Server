@@ -9,7 +9,7 @@ const router = express.Router()
 // READ
 router.get('/vehicle', async (req: Request, res: Response) => {
     try {
-        let vehicles = await diveraHandler.getVehicles()
+        const vehicles = await diveraHandler.getVehicles()
         res.status(200).send(vehicles)
     } catch (e) {
         res.status(500).send(e.message)

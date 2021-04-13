@@ -6,7 +6,7 @@ const router = express.Router()
 // READ ALL
 router.get('/', async (req: Request, res: Response) => {
     try {
-        let users = await userHandler.getUsers()
+        const users = await userHandler.getUsers()
         return res.status(200).send(users)
     } catch (e) {
         res.status(500).send(e.message)
@@ -27,7 +27,7 @@ router.get('/me', async (req: Request, res: Response) => {
 router.get('/:id', async (req: Request, res: Response) => {
     try {
         const { id } = req.params
-        let user = await userHandler.getById(id)
+        const user = await userHandler.getById(id)
         return res.status(200).send(user)
     } catch (e) {
         res.status(500).send(e.message)

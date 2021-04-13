@@ -19,7 +19,7 @@ router.post('/login', async (req: Request, res: Response) => {
         } else res.status(401).send({ "success": false, "error": "No Data provided" })
     } catch (e) {
         console.log(e);
-        
+
         res.status(500).send(e.message)
     }
 })
@@ -31,7 +31,7 @@ router.post('/logout', async (req: Request, res: Response) => {
 
 
 async function checkAuth(req: Request, res: Response, next: NextFunction) {
-    const bearerHeader = req.headers['authorization'];
+    const bearerHeader = req.headers.authorization;
 
     if (typeof bearerHeader !== undefined) {
         const bearer = bearerHeader.split(' ');

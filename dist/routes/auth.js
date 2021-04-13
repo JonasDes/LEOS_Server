@@ -46,7 +46,7 @@ router.post('/logout', (req, res) => __awaiter(void 0, void 0, void 0, function*
 }));
 function checkAuth(req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
-        const bearerHeader = req.headers['authorization'];
+        const bearerHeader = req.headers.authorization;
         if (typeof bearerHeader !== undefined) {
             const bearer = bearerHeader.split(' ');
             const token = bearer[1];

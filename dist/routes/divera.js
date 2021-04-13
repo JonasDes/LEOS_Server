@@ -21,7 +21,7 @@ exports.diveraRouter = router;
 // READ
 router.get('/vehicle', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        let vehicles = yield index_1.diveraHandler.getVehicles();
+        const vehicles = yield index_1.diveraHandler.getVehicles();
         res.status(200).send(vehicles);
     }
     catch (e) {

@@ -58,7 +58,7 @@ class EtbPDF {
                     data.forEach((row) => {
                         console.log(row.content);
                         // row.forEach((element: any) => {
-                        //     console.log(element, element.length);                   
+                        //     console.log(element, element.length);
                         // });
                         const dataRow = [];
                         columns.forEach((column) => {
@@ -66,24 +66,24 @@ class EtbPDF {
                                 dataRow.push(row[column].name.toString());
                             }
                             else if (column === "content") {
-                                var edits = "";
-                                row['edit'].forEach((element) => {
+                                let edits = "";
+                                row.edit.forEach((element) => {
                                     var _a;
                                     edits += "\n" + ((_a = element === null || element === void 0 ? void 0 : element.data) === null || _a === void 0 ? void 0 : _a.content) + "\n";
                                 });
                                 dataRow.push(row[column].toString() + "\r\n" + edits);
                             }
                             else if (column === "comment") {
-                                var edits = "";
-                                row['edit'].forEach((element) => {
+                                let edits = "";
+                                row.edit.forEach((element) => {
                                     var _a;
                                     edits += "\n" + ((_a = element === null || element === void 0 ? void 0 : element.data) === null || _a === void 0 ? void 0 : _a.comment) + "\n";
                                 });
                                 dataRow.push(row[column].toString() + "\r\n" + edits);
                             }
                             else if (column === "timestamp") {
-                                var edits = "";
-                                row['edit'].forEach((element) => {
+                                let edits = "";
+                                row.edit.forEach((element) => {
                                     edits += "\n" + new Date((element === null || element === void 0 ? void 0 : element.timestamp) * 1).toLocaleTimeString('de-DE') + "\n";
                                 });
                                 dataRow.push(new Date(row[column] * 1).toLocaleTimeString('de-DE') + "\r\n" + edits);
