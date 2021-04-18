@@ -9,6 +9,8 @@ import { missionRouter } from '../routes/mission'
 import { missionDiaryRouter } from '../routes/missionDiary'
 import { operationRouter } from '../routes/operation'
 import { diveraRouter } from '../routes/divera'
+import { tentRouter } from '../routes/tent'
+import { patientRouter } from '../routes/patient'
 import { authRouter, checkAuth } from '../routes/auth'
 
 const router = express.Router()
@@ -33,6 +35,8 @@ router.use('/mission', missionRouter)
 router.use('/missionDiary', missionDiaryRouter)
 router.use('/operation', operationRouter)
 router.use('/divera', diveraRouter)
+router.use('/tent', tentRouter)
+router.use('/patient', patientRouter)
 
 
 export { router as apiRouter }
