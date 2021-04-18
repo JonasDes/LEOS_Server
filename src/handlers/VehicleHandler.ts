@@ -1,5 +1,5 @@
 import Vehicle from '../models/vehicle.model'
-import { diveraHandler, ioServer } from '../index'
+import { diveraHandler, ioServer, missionDiaryHandler } from '../index'
 
 const vehicleHandler = {
 
@@ -30,16 +30,19 @@ const vehicleHandler = {
         return vehicle.delete()
     },
 
-    updateVehicle: async (vehicleID: any, vehicleData: any) => {
+    updateVehicle: async (vehicleID: any, vehicleData: any, islst: boolean) => {
 
         const vehicle = await Vehicle.findOne({ _id: vehicleID })
-        if ((vehicleData?.fms || vehicleData?.fms === 0) && vehicleData?.fms !== vehicle.fms) {
+
+
+        if ((vehicleData?.fms || vehicleData?.fms === 0) && vehicleData?.fms.toString() !== vehicle.fms.toString()) {
             switch (vehicleData.fms) {
                 case 0:
                     ioServer.io.emit("NOTFALL", vehicle)
                     break;
                 case 5:
                     ioServer.io.emit("sprechw", vehicle, "1", true)
+                    missionDiaryHandler.setSprechW({ name: vehicle.name, fms_new: vehicle.fms })
                     break;
                 case 9:
 
@@ -47,11 +50,12 @@ const vehicleHandler = {
                 default:
                     if (vehicle.divera_id) diveraHandler.setVehicleFMS({ fms: vehicleData.fms, id: vehicle.divera_id })
                     ioServer.io.emit("pull-fms")
+                    missionDiaryHandler.changeVehicleStatus({ name: vehicle.name, fms_old: vehicle.fms, fms_new: vehicleData?.fms, islst })
                     return Vehicle.findOneAndUpdate({ _id: vehicleID }, vehicleData, { new: true })
             }
 
         } else {
-            // ioServer.io.emit("pull-fms")
+            ioServer.io.emit("pull-fms")
             return Vehicle.findOneAndUpdate({ _id: vehicleID }, vehicleData, { new: true })
         }
 

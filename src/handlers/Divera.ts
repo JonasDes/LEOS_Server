@@ -22,8 +22,7 @@ class Divera {
                 if (data.vehicle.fmsstatus_id === 10) data.vehicle.fmsstatus_id = 0
                 const vehicle = await vehicleHandler.getByDivera(data.vehicle.id)
                 if (data.vehicle.fmsstatus_id !== vehicle.fms) {
-
-                    vehicleHandler.updateVehicle(vehicle._id, { fms: data.vehicle.fmsstatus_id })
+                    vehicleHandler.updateVehicle(vehicle._id, { fms: data.vehicle.fmsstatus_id }, false)
                 }
             })
         } catch (e) {

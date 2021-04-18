@@ -8,6 +8,9 @@ import cors from 'cors'
 import SocketHandler from './handlers/SocketHandler'
 import EtbPDF from './handlers/EtbPDF'
 import AlarmPDF from './handlers/AlarmPDF'
+import userHandler from './handlers/UserHandler';
+import missionDiaryHandler from './handlers/MissionDiaryHandler';
+
 
 
 
@@ -17,7 +20,9 @@ const http = require("http").Server(app);
 const ioServer = new SocketHandler(http)
 const diveraHandler = new Divera('Me21Yl8jhfJie1-oakPzr9wG585yT_IfkrwRKubHX_MciKWACRdgzK11H7dJI4Ur')
 
-export { ioServer, diveraHandler }
+
+
+export { ioServer, diveraHandler, missionDiaryHandler }
 
 
 // new EtbPDF("602ac22c8bb6c947a06a4106")
@@ -55,9 +60,6 @@ connection.once("open", () => {
     //
     // });
 });
-
-
-
 
 
 

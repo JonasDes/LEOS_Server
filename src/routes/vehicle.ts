@@ -26,7 +26,7 @@ router.post('/', async (req: Request, res: Response) => {
 router.post('/:id', async (req: Request, res: Response) => {
     try {
         const { id } = req.params
-        const vehicle = await vehicleHandler.updateVehicle(id, req.body)
+        const vehicle = await vehicleHandler.updateVehicle(id, req.body, true)
         return res.status(200).json(vehicle)
     } catch (e) {
         return res.status(500).json(e.message)
