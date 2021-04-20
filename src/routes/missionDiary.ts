@@ -61,7 +61,6 @@ router.post('/:id', async (req: Request, res: Response) => {
         missionDiary.content = req.body.content || missionDiary.content
         missionDiary.comment = req.body.comment || missionDiary.comment
 
-
         const missionDiaryNew = await MissionDiary.findOneAndUpdate({ _id: id }, missionDiary, { new: true })
         res.status(200).send(missionDiaryNew)
     } catch (e) {

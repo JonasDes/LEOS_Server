@@ -17,7 +17,7 @@ const mission_model_1 = require("./mission.model");
 class Operation {
 }
 __decorate([
-    typegoose_1.prop({ ref: () => vehicle_model_1.VehicleSchema, required: true }),
+    typegoose_1.prop({ ref: () => vehicle_model_1.VehicleSchema }),
     __metadata("design:type", Array)
 ], Operation.prototype, "vehicles", void 0);
 __decorate([
@@ -42,12 +42,20 @@ __decorate([
 ], Operation.prototype, "timestamp", void 0);
 __decorate([
     typegoose_1.prop(),
+    __metadata("design:type", Boolean)
+], Operation.prototype, "priority", void 0);
+__decorate([
+    typegoose_1.prop(),
     __metadata("design:type", String)
 ], Operation.prototype, "keyword", void 0);
 __decorate([
     typegoose_1.prop(),
     __metadata("design:type", String)
 ], Operation.prototype, "message", void 0);
+__decorate([
+    typegoose_1.prop(),
+    __metadata("design:type", Array)
+], Operation.prototype, "edit", void 0);
 exports.OperationSchema = Operation;
 exports.default = typegoose_1.getModelForClass(Operation);
 //# sourceMappingURL=operation.model.js.map

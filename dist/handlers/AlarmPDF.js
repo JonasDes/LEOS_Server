@@ -35,14 +35,23 @@ const pdfmake_1 = __importDefault(require("pdfmake"));
 const fs = __importStar(require("fs"));
 const path_1 = __importDefault(require("path"));
 const operation_model_1 = __importDefault(require("../models/operation.model"));
-const keyword_model_1 = __importDefault(require("../models/keyword.model"));
 class AlarmPDF {
     constructor(operationid) {
         makePDF();
         function makePDF() {
             return __awaiter(this, void 0, void 0, function* () {
                 const operation = yield operation_model_1.default.findOne({ _id: operationid }).populate('editor', 'name').populate('vehicles', 'name');
-                const keyword = yield keyword_model_1.default.findOne({ name: operation.keyword }).select(`nameLong`);
+                let vehicles = [];
+                vehicles.push([{ text: 'Einsatzmittel', bold: true },
+                    { text: 'alarmiert', bold: true },
+                    { text: 'Status 3', bold: true },
+                    { text: 'Status 4', bold: true },
+                    { text: 'Status 7', bold: true },
+                    { text: 'Status 8', bold: true },
+                    { text: 'Ende', bold: true }]);
+                operation.vehicles.forEach((vehicle) => {
+                    vehicles.push([vehicle.name, new Date(operation.timestamp * 1).toLocaleTimeString(), '13:40:01', '13:45:11', '14:00:46', '14:10:34', '14:25:21']);
+                });
                 const dirname = path_1.default.join(__dirname, '..', 'assets');
                 const fonts = {
                     Roboto: {
@@ -54,6 +63,12 @@ class AlarmPDF {
                 };
                 const printer = new pdfmake_1.default(fonts);
                 const docDefinition = {
+                    footer: {
+                        columns: [
+                            { text: 'JDeseive', alignment: 'left', margin: [20, 0, 20, 50] },
+                            { text: 'Leitstelle Johannes Essen', alignment: 'right', margin: [20, 0, 20, 50] },
+                        ]
+                    },
                     pageSize: 'A4',
                     pageOrientation: 'portrait',
                     compress: true,
@@ -71,7 +86,7 @@ class AlarmPDF {
                         },
                         {
                             text: [
-                                { text: 'Alarmdruck 60 / ' + keyword.nameLong + ' / 07.02.2021 13:50:52', alignment: 'center' },
+                                { text: 'Alarmdruck 60 / ' + operation.keyword + ' / ' + new Date(operation.timestamp * 1).toLocaleString(), alignment: 'center' },
                             ]
                         },
                         {
@@ -95,11 +110,9 @@ class AlarmPDF {
                                         }, '\nObjekt\nOrt\nOrtsteil\nStraße\nBemerkung']
                                 },
                                 {
-                                    // star-sized columns fill the remaining space
-                                    // if there's more than one star-column, available width is divided equally
                                     width: '*',
                                     text: [{ text: operation.message, bold: true }, '\n', {
-                                            text: 'Mit Sondersignal',
+                                            text: operation.priority ? 'Mit Sondersignal' : 'Ohne Sondersignal',
                                             bold: true
                                         }, '\n\n', { text: operation.keyword, bold: true }, '\n\n', {
                                             text: '11.EVT.1',
@@ -119,16 +132,7 @@ class AlarmPDF {
                             table: {
                                 headerRows: 1,
                                 widths: [100, '*', '*', '*', '*', '*', '*'],
-                                body: [
-                                    [{ text: 'Einsatzmittel', bold: true },
-                                        { text: 'alarmiert', bold: true },
-                                        { text: 'Status 3', bold: true },
-                                        { text: 'Status 4', bold: true },
-                                        { text: 'Status 7', bold: true },
-                                        { text: 'Status 8', bold: true },
-                                        { text: 'Ende', bold: true }],
-                                    ["21.RTW.4", '13:39:16', '13:40:01', '13:45:11', '14:00:46', '14:10:34', '14:25:21']
-                                ]
+                                body: vehicles,
                             }
                         }
                     ]

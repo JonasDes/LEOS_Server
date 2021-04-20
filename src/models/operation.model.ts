@@ -5,7 +5,7 @@ import {UserSchema} from "./user.model";
 import {MissionSchema} from "./mission.model";
 
 class Operation {
-    @prop({ref: () => VehicleSchema, required:true})
+    @prop({ref: () => VehicleSchema})
     public vehicles: Ref <VehicleSchema>[]
 
     @prop({ref: () => UserSchema, required:true})
@@ -24,10 +24,16 @@ class Operation {
     public timestamp: string
 
     @prop()
+    public priority: boolean
+
+    @prop()
     public keyword: string
 
     @prop()
     public message: string
+
+    @prop()
+    public edit: object[]
 }
 
 

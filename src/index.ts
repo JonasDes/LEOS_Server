@@ -6,12 +6,8 @@ import Divera from './handlers/Divera'
 import { apiRouter } from './handlers/ApiHandler'
 import cors from 'cors'
 import SocketHandler from './handlers/SocketHandler'
-import EtbPDF from './handlers/EtbPDF'
-import AlarmPDF from './handlers/AlarmPDF'
-import userHandler from './handlers/UserHandler';
 import missionDiaryHandler from './handlers/MissionDiaryHandler';
-
-
+import AlarmPDF from './handlers/AlarmPDF';
 
 
 const app = express();
@@ -20,13 +16,10 @@ const http = require("http").Server(app);
 const ioServer = new SocketHandler(http)
 const diveraHandler = new Divera('Me21Yl8jhfJie1-oakPzr9wG585yT_IfkrwRKubHX_MciKWACRdgzK11H7dJI4Ur')
 
-
-
 export { ioServer, diveraHandler, missionDiaryHandler }
 
-
 // new EtbPDF("602ac22c8bb6c947a06a4106")
-// new AlarmPDF("606ba8c98f4aed2298dfcfb0")
+new AlarmPDF("607e042c07d4b45d0c4739eb")
 
 const server = http.listen(process.env.PORT || 3000, () => {
     console.log("listening on *:3000");
@@ -50,15 +43,6 @@ mongoose.connect('mongodb+srv://leos:LTH39F7FfG7Asrx5@cluster0.8eor1.mongodb.net
 const connection = mongoose.connection;
 connection.once("open", () => {
     console.log("MongoDB database connected");
-
-    // console.log("Setting change streams");
-    // const thoughtChangeStream = connection.collection('vehicles').watch()
-    //
-    // thoughtChangeStream.on("change", (change) => {
-    //     console.log("TEST")
-    //     console.log(change)
-    //
-    // });
 });
 
 

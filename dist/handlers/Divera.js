@@ -31,7 +31,7 @@ class Divera {
                     data.vehicle.fmsstatus_id = 0;
                 const vehicle = yield VehicleHandler_1.default.getByDivera(data.vehicle.id);
                 if (data.vehicle.fmsstatus_id !== vehicle.fms) {
-                    VehicleHandler_1.default.updateVehicle(vehicle._id, { fms: data.vehicle.fmsstatus_id });
+                    VehicleHandler_1.default.updateVehicle(vehicle._id, { fms: data.vehicle.fmsstatus_id }, false);
                 }
             }));
         }

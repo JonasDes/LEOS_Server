@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express'
 import Patient from '../models/patient.model'
 const router = express.Router()
+import { ioServer } from '../index'
 
 // CREATE
 router.post('/', async (req: Request, res: Response) => {
@@ -10,10 +11,33 @@ router.post('/', async (req: Request, res: Response) => {
         const station = new Patient(req.body)
         await station.save()
         res.status(200).send(station)
+
     } catch (e) {
         res.status(500).send(e.message)
     }
 })
+
+// CREATE from efÜ
+router.post('/efue', async (req: Request, res: Response) => {
+    try {
+        console.log(req.body);
+        const patient = new Patient({
+            name: req.body.Name,
+            surname: req.body.Vorname,
+            origin: req.body.Fundort,
+            sex: req.body.Geschlecht,
+            msg: req.body.Diagnose,
+            birthdate: req.body.Geburtstag,
+            triage: req.body.SK
+        })
+        await patient.save()
+        res.status(200).send(patient)
+        //ioServer.io.emit('new-patient', patient)
+    } catch (e) {
+        res.status(500).send(e.message)
+    }
+})
+
 
 
 // READ
@@ -32,7 +56,7 @@ router.get('/', async (req: Request, res: Response) => {
 router.get('/:id', async (req: Request, res: Response) => {
     const { id } = req.params
     try {
-        const stations = await Patient.findOne({_id:id})
+        const stations = await Patient.findOne({ _id: id })
         return res.status(200).send(stations)
     } catch (e) {
         res.status(500).send(e.message)
@@ -50,6 +74,7 @@ router.post('/:id', async (req: Request, res: Response) => {
         res.status(500).send(e.message)
     }
 })
+
 
 
 // DELETE

@@ -16,7 +16,7 @@ const vehicle_model_1 = __importDefault(require("../models/vehicle.model"));
 const index_1 = require("../index");
 const vehicleHandler = {
     getVehicles: () => __awaiter(void 0, void 0, void 0, function* () {
-        return vehicle_model_1.default.find().populate('station').populate('type');
+        return vehicle_model_1.default.find().populate('station').populate('type').populate('Operation');
     }),
     createVehicle: (vehicleData) => __awaiter(void 0, void 0, void 0, function* () {
         try {
@@ -37,15 +37,19 @@ const vehicleHandler = {
         const vehicle = yield vehicle_model_1.default.findById(vehicleID);
         return vehicle.delete();
     }),
-    updateVehicle: (vehicleID, vehicleData) => __awaiter(void 0, void 0, void 0, function* () {
+    setOperation: (vehicleID, operation) => __awaiter(void 0, void 0, void 0, function* () {
+        return vehicle_model_1.default.findOneAndUpdate({ _id: vehicleID }, { operation }, { new: true });
+    }),
+    updateVehicle: (vehicleID, vehicleData, islst) => __awaiter(void 0, void 0, void 0, function* () {
         const vehicle = yield vehicle_model_1.default.findOne({ _id: vehicleID });
-        if (((vehicleData === null || vehicleData === void 0 ? void 0 : vehicleData.fms) || (vehicleData === null || vehicleData === void 0 ? void 0 : vehicleData.fms) === 0) && (vehicleData === null || vehicleData === void 0 ? void 0 : vehicleData.fms) !== vehicle.fms) {
+        if (((vehicleData === null || vehicleData === void 0 ? void 0 : vehicleData.fms) || (vehicleData === null || vehicleData === void 0 ? void 0 : vehicleData.fms) === 0) && (vehicleData === null || vehicleData === void 0 ? void 0 : vehicleData.fms.toString()) !== vehicle.fms.toString()) {
             switch (vehicleData.fms) {
                 case 0:
                     index_1.ioServer.io.emit("NOTFALL", vehicle);
                     break;
                 case 5:
                     index_1.ioServer.io.emit("sprechw", vehicle, "1", true);
+                    index_1.missionDiaryHandler.setSprechW({ name: vehicle.name, fms_new: vehicle.fms });
                     break;
                 case 9:
                     break;
@@ -53,11 +57,12 @@ const vehicleHandler = {
                     if (vehicle.divera_id)
                         index_1.diveraHandler.setVehicleFMS({ fms: vehicleData.fms, id: vehicle.divera_id });
                     index_1.ioServer.io.emit("pull-fms");
+                    index_1.missionDiaryHandler.changeVehicleStatus({ name: vehicle.name, fms_old: vehicle.fms, fms_new: vehicleData === null || vehicleData === void 0 ? void 0 : vehicleData.fms, islst });
                     return vehicle_model_1.default.findOneAndUpdate({ _id: vehicleID }, vehicleData, { new: true });
             }
         }
         else {
-            // ioServer.io.emit("pull-fms")
+            index_1.ioServer.io.emit("pull-fms");
             return vehicle_model_1.default.findOneAndUpdate({ _id: vehicleID }, vehicleData, { new: true });
         }
     }),

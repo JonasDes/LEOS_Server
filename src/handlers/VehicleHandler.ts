@@ -4,7 +4,7 @@ import { diveraHandler, ioServer, missionDiaryHandler } from '../index'
 const vehicleHandler = {
 
     getVehicles: async () => {
-        return Vehicle.find().populate('station').populate('type')
+        return Vehicle.find().populate('station').populate('type').populate('Operation')
     },
 
     createVehicle: async (vehicleData: any) => {
@@ -30,11 +30,12 @@ const vehicleHandler = {
         return vehicle.delete()
     },
 
+    setOperation: async (vehicleID: string, operation: string) => {
+        return Vehicle.findOneAndUpdate({ _id: vehicleID }, { operation }, { new: true })
+    },
+
     updateVehicle: async (vehicleID: any, vehicleData: any, islst: boolean) => {
-
         const vehicle = await Vehicle.findOne({ _id: vehicleID })
-
-
         if ((vehicleData?.fms || vehicleData?.fms === 0) && vehicleData?.fms.toString() !== vehicle.fms.toString()) {
             switch (vehicleData.fms) {
                 case 0:

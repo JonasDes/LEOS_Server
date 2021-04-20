@@ -36,7 +36,7 @@ router.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 router.post('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
-        const vehicle = yield VehicleHandler_1.default.updateVehicle(id, req.body);
+        const vehicle = yield VehicleHandler_1.default.updateVehicle(id, req.body, true);
         return res.status(200).json(vehicle);
     }
     catch (e) {

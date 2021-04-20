@@ -1,6 +1,8 @@
-import { getModelForClass, prop, Ref } from "@typegoose/typegoose";
+import { getModelForClass, mongoose, prop, Ref } from "@typegoose/typegoose";
 import { StationSchema } from "./station.model"
 import { VehicleTypeSchema } from "./vehicletype.model";
+import { OperationSchema } from "./operation.model";
+
 
 class Vehicle {
     @prop({ required: true })
@@ -23,7 +25,13 @@ class Vehicle {
 
     @prop({ ref: () => VehicleTypeSchema, autopopulate: true })
     public type: Ref<VehicleTypeSchema>
+
+    @prop({ ref: 'Operation', type: mongoose.Schema.Types.ObjectId }) // @TODO: https://typegoose.github.io/typegoose/docs/guides/advanced/reference-other-classes/#common-problems
+    public operation: Ref<OperationSchema>
+
+
 }
+
 
 
 export { Vehicle as VehicleSchema }

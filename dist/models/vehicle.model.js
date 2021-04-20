@@ -43,6 +43,11 @@ __decorate([
     typegoose_1.prop({ ref: () => vehicletype_model_1.VehicleTypeSchema, autopopulate: true }),
     __metadata("design:type", Object)
 ], Vehicle.prototype, "type", void 0);
+__decorate([
+    typegoose_1.prop({ ref: 'Operation', type: typegoose_1.mongoose.Schema.Types.ObjectId }) // @TODO: https://typegoose.github.io/typegoose/docs/guides/advanced/reference-other-classes/#common-problems
+    ,
+    __metadata("design:type", Object)
+], Vehicle.prototype, "operation", void 0);
 exports.VehicleSchema = Vehicle;
 exports.default = typegoose_1.getModelForClass(Vehicle);
 //# sourceMappingURL=vehicle.model.js.map

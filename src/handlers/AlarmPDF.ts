@@ -11,7 +11,20 @@ class AlarmPDF {
 
         async function makePDF() {
             const operation = await Operation.findOne({ _id: operationid }).populate('editor', 'name').populate('vehicles', 'name')
-            const keyword = await Keyword.findOne({ name: operation.keyword }).select(`nameLong`)
+            let vehicles: any = []
+            vehicles.push([{ text: 'Einsatzmittel', bold: true },
+            { text: 'alarmiert', bold: true },
+            { text: 'Status 3', bold: true },
+            { text: 'Status 4', bold: true },
+            { text: 'Status 7', bold: true },
+            { text: 'Status 8', bold: true },
+            { text: 'Ende', bold: true }])
+
+            operation.vehicles.forEach((vehicle: any) => {
+                vehicles.push([vehicle.name, new Date(operation.timestamp * 1).toLocaleTimeString(), '13:40:01', '13:45:11', '14:00:46', '14:10:34', '14:25:21'])
+            })
+
+
             const dirname = path.join(__dirname, '..', 'assets')
             const fonts = {
                 Roboto: {
@@ -25,6 +38,13 @@ class AlarmPDF {
             const printer = new PdfPrinter(fonts);
 
             const docDefinition: TDocumentDefinitions = {
+                footer: {
+                    columns: [
+                        { text: 'JDeseive', alignment: 'left', margin: [20, 0, 20, 50] },
+                        { text: 'Leitstelle Johannes Essen', alignment: 'right', margin: [20, 0, 20, 50] },
+                        
+                    ]
+                },
                 pageSize: 'A4',
                 pageOrientation: 'portrait',
                 compress: true,
@@ -45,7 +65,7 @@ class AlarmPDF {
                     {
                         text:
                             [
-                                { text: 'Alarmdruck 60 / ' + keyword.nameLong + ' / 07.02.2021 13:50:52', alignment: 'center' },
+                                { text: 'Alarmdruck 60 / ' + operation.keyword + ' / ' + new Date(operation.timestamp * 1).toLocaleString(), alignment: 'center' },
                             ]
                     },
                     {
@@ -73,11 +93,9 @@ class AlarmPDF {
                                         }, '\nObjekt\nOrt\nOrtsteil\nStraße\nBemerkung']
                                 },
                                 {
-                                    // star-sized columns fill the remaining space
-                                    // if there's more than one star-column, available width is divided equally
                                     width: '*',
                                     text: [{ text: operation.message, bold: true }, '\n', {
-                                        text: 'Mit Sondersignal',
+                                        text: operation.priority ? 'Mit Sondersignal' : 'Ohne Sondersignal',
                                         bold: true
                                     }, '\n\n', { text: operation.keyword, bold: true }, '\n\n', {
                                         text: '11.EVT.1',
@@ -92,32 +110,29 @@ class AlarmPDF {
                                 },
                             ],
                     },
+
                     {
                         layout: 'noBorders',
                         table: {
                             headerRows: 1,
                             widths: [100, '*', '*', '*', '*', '*', '*'],
-
-                            body: [
-                                [{ text: 'Einsatzmittel', bold: true },
-                                { text: 'alarmiert', bold: true },
-                                { text: 'Status 3', bold: true },
-                                { text: 'Status 4', bold: true },
-                                { text: 'Status 7', bold: true },
-                                { text: 'Status 8', bold: true },
-                                { text: 'Ende', bold: true }],
-                                ["21.RTW.4", '13:39:16', '13:40:01', '13:45:11', '14:00:46', '14:10:34', '14:25:21']
-                            ]
+                            body: vehicles,
                         }
                     }
                 ]
             };
+
+
             printer.createPdfKitDocument(docDefinition)
             const pdfDoc = printer.createPdfKitDocument(docDefinition)
             const writeStream = fs.createWriteStream(dirname + '/TEST.pdf');
             pdfDoc.pipe(writeStream);
             pdfDoc.end();
+
+
         }
+
+
     }
 }
 

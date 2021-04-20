@@ -8,7 +8,7 @@ class Station {
     @prop({ required: true })
     public name_formatted: string
 
-    @prop({required: true, default: {street:"Musterstraße 20", postcode:"45355", city:"Musterhausen"} })
+    @prop({required: true, default: {street:"Musterstraße 20", postcode:"45355", city:"Musterhausen"}})
     public address: object
 }
 

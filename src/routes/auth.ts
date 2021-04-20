@@ -31,9 +31,8 @@ router.post('/logout', async (req: Request, res: Response) => {
 
 
 async function checkAuth(req: Request, res: Response, next: NextFunction) {
-    const bearerHeader = req.headers.authorization;
-
-    if (typeof bearerHeader !== undefined) {
+    const bearerHeader = req.headers.authorization;  
+    if (bearerHeader !== undefined) {
         const bearer = bearerHeader.split(' ');
         const token = bearer[1]
         try {
