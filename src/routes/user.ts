@@ -18,7 +18,7 @@ router.get('/', async (req: Request, res: Response) => {
 // CURRENT USER
 router.get('/me', async (req: Request, res: Response) => {
     try {
-        return res.status(200).send({ user: req.headers.user })
+        return res.status(200).send({ user: req.body.editor })
     } catch (e) {
         res.status(500).send(e.message)
     }
