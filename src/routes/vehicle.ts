@@ -12,6 +12,14 @@ router.get('/', async (req: Request, res: Response) => {
     return res.status(200).send(vehicles)
 })
 
+// READ ONE
+router.get('/:id', async (req: Request, res: Response) => {
+    const { id } = req.params
+    const vehicle = await vehicleHandler.getById(id)
+    return res.status(200).send(vehicle)
+})
+
+
 // CREATE
 router.post('/', async (req: Request, res: Response) => {
     try {

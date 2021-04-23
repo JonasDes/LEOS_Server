@@ -63,7 +63,7 @@ router.delete('/:id', async (req: Request, res: Response) => {
         const vehicles = await Vehicle.find({ station: id })
         if (vehicles.length > 0) {
             if (!req.query.forced) {
-                res.status(400).send({ message: "Es sind noch Fahrzeuge verknüpft", vehicles })
+                res.status(400).send({ message: "Es sind noch Fahrzeuge mit dieser Wache verknüpft", vehicles })
                 return
             } else {
                 await station.delete()

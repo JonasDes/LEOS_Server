@@ -22,6 +22,12 @@ router.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const vehicles = yield VehicleHandler_1.default.getVehicles();
     return res.status(200).send(vehicles);
 }));
+// READ ONE
+router.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const vehicle = yield VehicleHandler_1.default.getById(id);
+    return res.status(200).send(vehicle);
+}));
 // CREATE
 router.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {

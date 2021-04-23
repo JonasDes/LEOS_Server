@@ -68,4 +68,15 @@ router.post('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         res.status(500).send(e.message);
     }
 }));
+// DELETE
+router.delete('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    try {
+        const user = yield UserHandler_1.default.deleteUser(id);
+        res.status(200).send(user);
+    }
+    catch (e) {
+        res.status(500).send(e.message);
+    }
+}));
 //# sourceMappingURL=user.js.map

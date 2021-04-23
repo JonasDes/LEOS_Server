@@ -70,7 +70,7 @@ router.delete('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* 
         const vehicles = yield vehicle_model_1.default.find({ station: id });
         if (vehicles.length > 0) {
             if (!req.query.forced) {
-                res.status(400).send({ message: "Es sind noch Fahrzeuge verknüpft", vehicles });
+                res.status(400).send({ message: "Es sind noch Fahrzeuge mit dieser Wache verknüpft", vehicles });
                 return;
             }
             else {

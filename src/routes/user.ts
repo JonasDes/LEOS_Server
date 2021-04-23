@@ -55,5 +55,16 @@ router.post('/:id', async (req: Request, res: Response) => {
     }
 })
 
+// DELETE
+router.delete('/:id', async (req: Request, res: Response) => {
+    const { id } = req.params
+    try {
+        const user = await userHandler.deleteUser(id)
+        res.status(200).send(user)
+    } catch (e) {
+        res.status(500).send(e.message)
+    }
+})
+
 
 export { router as userRouter }

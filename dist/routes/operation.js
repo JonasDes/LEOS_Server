@@ -18,7 +18,7 @@ const operation_model_1 = __importDefault(require("../models/operation.model"));
 const index_1 = require("../index");
 const axios_1 = __importDefault(require("axios"));
 const VehicleHandler_1 = __importDefault(require("../handlers/VehicleHandler"));
-const lodash_1 = require("lodash");
+const recursive_diff_1 = __importDefault(require("recursive-diff"));
 const router = express_1.default.Router();
 exports.operationRouter = router;
 // CREATE
@@ -36,6 +36,45 @@ router.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         req.body.editor = req.headers.user;
         req.body.mission = "602ac22c8bb6c947a06a4106";
         req.body.timestamp = Date.now();
+        let oldOP = {
+            keyword: "",
+            vehicles: "",
+            message: "",
+            address: {
+                street: "",
+                number: "",
+                object: "",
+                postcode: "",
+                city: "",
+            },
+            addressDestination: {
+                street: "",
+                number: "",
+                object: "",
+                postcode: "",
+                city: "",
+            },
+            priority: ""
+        };
+        let newOP = {
+            keyword: req.body.keyword,
+            address: req.body.address,
+            vehicles: req.body.vehicles,
+            message: req.body.message,
+            addressDestination: req.body.addressDestination,
+            priority: req.body.priority
+        };
+        const delta = recursive_diff_1.default.getDiff(oldOP, newOP);
+        let changes = [];
+        delta.forEach(element => {
+            console.log(element.path[0]);
+            if (!(element.path[0] == 'vehicles' && element.op == 'update'))
+                changes.push(element);
+        });
+        req.body.edit = [];
+        if (changes.length !== 0) {
+            req.body.edit.push({ timestamp: Date.now(), changes });
+        }
         const operation = new operation_model_1.default(req.body);
         yield operation.save();
         (_b = (_a = req.body) === null || _a === void 0 ? void 0 : _a.vehicles) === null || _b === void 0 ? void 0 : _b.forEach((vehicle) => __awaiter(void 0, void 0, void 0, function* () {
@@ -75,11 +114,38 @@ router.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 router.post('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     try {
+        let oldOperation = yield operation_model_1.default.findOne({ _id: id });
+        let oldOP = {
+            keyword: oldOperation.keyword,
+            address: oldOperation.address,
+            vehicles: oldOperation.vehicles,
+            message: oldOperation.message,
+            addressDestination: oldOperation.addressDestination,
+            priority: oldOperation.priority
+        };
+        let newOP = {
+            keyword: req.body.keyword,
+            address: req.body.address,
+            vehicles: req.body.vehicles,
+            message: req.body.message,
+            addressDestination: req.body.addressDestination,
+            priority: req.body.priority
+        };
+        const delta = recursive_diff_1.default.getDiff(oldOP, newOP);
+        let changes = [];
+        delta.forEach(element => {
+            if (!(element.path[0] == 'vehicles' && element.op == 'update'))
+                changes.push(element);
+        });
+        if (changes.length !== 0) {
+            oldOperation.edit.push({ timestamp: Date.now(), changes });
+            Object.assign(req.body.edit, oldOperation.edit);
+        }
         const operation = yield operation_model_1.default.findOneAndUpdate({ _id: id }, req.body, { new: true });
+        index_1.ioServer.io.emit("pull-operation");
         res.status(200).send(operation);
     }
     catch (e) {
-        console.log(e);
         res.status(500).send(e.message);
     }
 }));
@@ -94,11 +160,4 @@ router.delete('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* 
         res.status(500).send(e.message);
     }
 }));
-function difference(object, base) {
-    return lodash_1.transform(object, (result, value, key) => {
-        if (!lodash_1.isEqual(value, base[key])) {
-            result[key] = lodash_1.isObject(value) && lodash_1.isObject(base[key]) ? difference(value, base[key]) : value;
-        }
-    });
-}
 //# sourceMappingURL=operation.js.map

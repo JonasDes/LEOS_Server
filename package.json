@@ -38,6 +38,7 @@
     "mongoose": "^5.11.15",
     "pdfmake": "^0.1.70",
     "postcss": "^8.2.6",
+    "recursive-diff": "^1.0.8",
     "socket.io": "^2.4.1",
     "socket.io-client": "^2.3.1",
     "tailwindcss": "^2.0.3",
