@@ -1,54 +1,15 @@
-import express from 'express';
-import cookieParser from 'cookie-parser'
-import mongoose from 'mongoose'
-import { json } from 'body-parser';
-import Divera from './handlers/Divera'
-import { apiRouter } from './handlers/ApiHandler'
-import cors from 'cors'
+import DiveraHandler from './handlers/DiveraHandler'
 import SocketHandler from './handlers/SocketHandler'
+import DatabaseHandler from './handlers/DatabaseHandler'
+import ServerHandler from './handlers/ServerHandler'
 import missionDiaryHandler from './handlers/MissionDiaryHandler';
-import AlarmPDF from './handlers/AlarmPDF';
+require('dotenv').config()
 
 
-const app = express();
-app.set("port", process.env.PORT || 3000);
-const http = require("http").Server(app);
-const ioServer = new SocketHandler(http)
-const diveraHandler = new Divera('Me21Yl8jhfJie1-oakPzr9wG585yT_IfkrwRKubHX_MciKWACRdgzK11H7dJI4Ur')
-
-export { ioServer, diveraHandler, missionDiaryHandler }
-
-// new EtbPDF("602ac22c8bb6c947a06a4106")
-new AlarmPDF("607e042c07d4b45d0c4739eb")
-
-const server = http.listen(process.env.PORT || 3000, () => {
-    console.log("listening on *:3000");
-});
-
-app.use(cookieParser())
-app.use(json())
-app.use(cors())
-app.use('/api', apiRouter);
+const serverHandler = new ServerHandler()
+const ioServer = new SocketHandler(serverHandler.http)
+const diveraHandler = new DiveraHandler()
+const databaseHandler = new DatabaseHandler()
 
 
-mongoose.connect('mongodb+srv://leos:LTH39F7FfG7Asrx5@cluster0.8eor1.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false
-})
-
-
-
-const connection = mongoose.connection;
-connection.once("open", () => {
-    console.log("MongoDB database connected");
-});
-
-
-
-
-
-
-
-
+export { ioServer, serverHandler, diveraHandler, missionDiaryHandler, databaseHandler }

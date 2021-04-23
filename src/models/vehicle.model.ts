@@ -2,9 +2,13 @@ import { getModelForClass, mongoose, prop, Ref } from "@typegoose/typegoose";
 import { StationSchema } from "./station.model"
 import { VehicleTypeSchema } from "./vehicletype.model";
 import { OperationSchema } from "./operation.model";
+import { ObjectId } from "mongoose";
 
 
 class Vehicle {
+    // @prop({ required: true })
+    // public _id: ObjectId
+
     @prop({ required: true })
     public name: string
 

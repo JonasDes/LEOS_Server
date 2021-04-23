@@ -31,8 +31,7 @@ router.post('/efue', async (req: Request, res: Response) => {
             triage: req.body.SK
         })
         await patient.save()
-        res.status(200).send(patient)
-        //ioServer.io.emit('new-patient', patient)
+        res.status(200).send(patient) // ioServer.io.emit('new-patient', patient)
     } catch (e) {
         res.status(500).send(e.message)
     }

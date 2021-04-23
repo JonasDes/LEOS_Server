@@ -1,4 +1,4 @@
-import express, { Request, Response, NextFunction } from 'express'
+import express from 'express'
 import { stationRouter } from '../routes/station'
 import { vehicleRouter } from '../routes/vehicle'
 import { vehicleTypeRouter } from '../routes/vehicleType'

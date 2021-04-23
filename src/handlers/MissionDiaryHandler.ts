@@ -1,9 +1,6 @@
 import MissionDiary from '../models/missiondiary.model'
 
 const missionDiaryHandler = {
-    getUsers: async () => {
-        return MissionDiary.find().populate('role').select('name')
-    },
 
     changeVehicleStatus: async (vehicle: any) => {
         const timestamp = Date.now()

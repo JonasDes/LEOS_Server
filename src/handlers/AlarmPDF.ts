@@ -11,7 +11,7 @@ class AlarmPDF {
 
         async function makePDF() {
             const operation = await Operation.findOne({ _id: operationid }).populate('editor', 'name').populate('vehicles', 'name')
-            let vehicles: any = []
+            const vehicles: any = []
             vehicles.push([{ text: 'Einsatzmittel', bold: true },
             { text: 'alarmiert', bold: true },
             { text: 'Status 3', bold: true },
@@ -42,7 +42,6 @@ class AlarmPDF {
                     columns: [
                         { text: 'JDeseive', alignment: 'left', margin: [20, 0, 20, 50] },
                         { text: 'Leitstelle Johannes Essen', alignment: 'right', margin: [20, 0, 20, 50] },
-                        
                     ]
                 },
                 pageSize: 'A4',

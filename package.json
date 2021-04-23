@@ -1,7 +1,13 @@
 {
-  "name": "lst-typescript",
+  "private": true,
+  "name": "@jondes/leos-server",
   "version": "1.0.0",
+  "author": "Jonas Deseive <jonas@jond.es>",
   "description": "",
+  "engines": {
+    "node": "^14",
+    "npm": "^6"
+  },
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
@@ -10,7 +16,6 @@
     "dev": "tsc-watch --onSuccess \"node ./dist/index.js\""
   },
   "keywords": [],
-  "author": "",
   "license": "ISC",
   "devDependencies": {},
   "dependencies": {
@@ -32,6 +37,7 @@
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "crypto-js": "^4.0.0",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",

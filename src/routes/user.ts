@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express'
 import userHandler from '../handlers/UserHandler'
+import { checkRole } from './auth'
 
 const router = express.Router()
 
@@ -35,7 +36,7 @@ router.get('/:id', async (req: Request, res: Response) => {
 })
 
 // CREATE
-router.post('/', async (req: Request, res: Response) => {
+router.post('/', checkRole.isAdmin, async (req: Request, res: Response) => {
     try {
         const user = await userHandler.createUser(req.body)
         res.status(200).send(user)
@@ -45,7 +46,7 @@ router.post('/', async (req: Request, res: Response) => {
 })
 
 // UPDATE
-router.post('/:id', async (req: Request, res: Response) => {
+router.post('/:id', checkRole.isAdmin, async (req: Request, res: Response) => {
     const { id } = req.params
     try {
         const user = await userHandler.updateUser(id, req.body)
@@ -56,7 +57,7 @@ router.post('/:id', async (req: Request, res: Response) => {
 })
 
 // DELETE
-router.delete('/:id', async (req: Request, res: Response) => {
+router.delete('/:id', checkRole.isAdmin, async (req: Request, res: Response) => {
     const { id } = req.params
     try {
         const user = await userHandler.deleteUser(id)

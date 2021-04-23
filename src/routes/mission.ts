@@ -16,7 +16,6 @@ router.post('/', async (req: Request, res: Response) => {
     }
 })
 
-
 // READ
 router.get('/', async (req: Request, res: Response) => {
     try {

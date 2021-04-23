@@ -1,6 +1,8 @@
 import express, { Request, Response, NextFunction } from 'express'
 import jwt from 'jsonwebtoken'
-import User from '../models/user.model'
+import { UserRoleSchema } from '../models/userrole.model'
+
+import User, { UserSchema } from '../models/user.model'
 
 const router = express.Router()
 
@@ -19,7 +21,6 @@ router.post('/login', async (req: Request, res: Response) => {
         } else res.status(401).send({ "success": false, "error": "No Data provided" })
     } catch (e) {
         console.log(e);
-
         res.status(500).send(e.message)
     }
 })
@@ -31,7 +32,7 @@ router.post('/logout', async (req: Request, res: Response) => {
 
 
 async function checkAuth(req: Request, res: Response, next: NextFunction) {
-    const bearerHeader = req.headers.authorization;  
+    const bearerHeader = req.headers.authorization;
     if (bearerHeader !== undefined) {
         const bearer = bearerHeader.split(' ');
         const token = bearer[1]
@@ -39,7 +40,7 @@ async function checkAuth(req: Request, res: Response, next: NextFunction) {
             const jwtoken = await jwt.verify(token.toString(), "123456")
             const user = await User.findOne({ accesskey: (jwtoken as any).accesskey }).select('name').populate('role')
             if (jwtoken && user) {
-                req.headers.user = user
+                req.body.editor = user
                 next()
             } else res.status(403).send({ "success": false, "error": "Forbidden" })
 
@@ -49,7 +50,26 @@ async function checkAuth(req: Request, res: Response, next: NextFunction) {
     } else return res.status(401).send({ "success": false, "error": "Unauthorized" })
 }
 
+const checkRole = {
+
+    async isAdmin(req: Request, res: Response, next: NextFunction) {
+        const user = req.headers.user as unknown as UserSchema
+        const role = user.role as UserRoleSchema
+
+        if (role.name === 'ADMIN') {
+            next()
+        } else {
+            res.status(403).send({ "success": false, "error": "Forbidden" })
+        }
+    }
+
+
+}
+
+
+
 
 export { router as authRouter }
 export { checkAuth as checkAuth }
+export { checkRole as checkRole }
 
