@@ -1,4 +1,10 @@
-import {getModelForClass, prop, Ref} from "@typegoose/typegoose";
+import { getModelForClass, prop, Ref } from "@typegoose/typegoose";
+import { TentSchema } from "./tent.model";
+
+interface Tent {
+    tent: Ref<TentSchema>,
+    bed: number,
+}
 
 class Patient {
     @prop()
@@ -9,6 +15,9 @@ class Patient {
 
     @prop()
     public birthdate: string
+
+    @prop({ default: { tent: '', bed: '' } })
+    public tent: Tent
 
     @prop()
     public birthplace: string
