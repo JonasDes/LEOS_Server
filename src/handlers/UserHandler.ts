@@ -2,7 +2,7 @@ import User from '../models/user.model'
 
 const userHandler = {
     getUsers: async () => {
-        return User.find().populate('role').select('name')
+        return User.find({ name: { $ne: 'SYSTEM' } }).populate('role').select('name')
     },
 
     createUser: async (userData: any) => {
