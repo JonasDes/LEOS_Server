@@ -21,7 +21,8 @@ class Operation {
     @prop({ ref: () => MissionSchema, required: true })
     public mission: Ref<MissionSchema>
 
-
+    @prop({ required: true })
+    public entryId: number
 
     @prop({
         default: {

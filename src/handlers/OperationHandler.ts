@@ -40,6 +40,7 @@ const operationHandler = {
         newData.addressDestination.number = addressDestinationCoordinates.data[0]?.address.house_number
         newData.mission = "602ac22c8bb6c947a06a4106" as any
         newData.timestamp = Date.now()
+        newData.entryId = await Operation.countDocuments({ mission: newData.mission }) + 1
 
         const oldOP = {
             keyword: "",
@@ -73,7 +74,7 @@ const operationHandler = {
         const changes: any = []
         delta.forEach(element => {
             console.log(element);
-            
+
             if (!(element.path[0] === 'vehicles' && element.op === 'update')) changes.push(element)
         });
 
@@ -128,6 +129,12 @@ const operationHandler = {
             Object.assign(newData.edit, oldData.edit)
         }
 
+
+        newData?.vehicles?.forEach(async (vehicle: any) => {
+            vehicleHandler.updateVehicle(vehicle, {}, true)
+            await vehicleHandler.setOperation(vehicle, id)
+
+        });
         ioServer.sendPullOperation()
         return Operation.findOneAndUpdate({ _id: id }, newData, { new: true })
     },
