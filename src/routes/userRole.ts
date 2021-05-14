@@ -21,7 +21,7 @@ router.post('/', async (req: Request, res: Response) => {
 // READ
 router.get('/', async (req: Request, res: Response) => {
     try {
-        const userrole = await UserRole.find()
+        const userrole = await UserRole.find({ name: { $ne: 'SYSTEM' } })
         return res.status(200).send(userrole)
     } catch (e) {
         res.status(500).send(e.message)
