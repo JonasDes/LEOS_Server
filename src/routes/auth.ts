@@ -53,13 +53,18 @@ async function checkAuth(req: Request, res: Response, next: NextFunction) {
 const checkRole = {
 
     async isAdmin(req: Request, res: Response, next: NextFunction) {
-        const user = req.headers.user as unknown as UserSchema
-        const role = user.role as UserRoleSchema
+        try {
+            const user = req.body.editor as unknown as UserSchema
+            const role = user.role as UserRoleSchema
 
-        if (role.name === 'ADMIN') {
-            next()
-        } else {
-            res.status(403).send({ "success": false, "error": "Forbidden" })
+            if (role.name === 'ADMIN') {
+                next()
+            } else {
+                res.status(403).send({ "success": false, "error": "Forbidden" })
+            }
+        } catch (error) {
+            console.log(error);
+
         }
     }
 
