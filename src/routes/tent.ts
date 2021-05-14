@@ -5,7 +5,7 @@ const router = express.Router()
 // CREATE
 router.post('/', async (req: Request, res: Response) => {
     try {
-        console.log(req.body);
+        req.body.name_formatted = req.body.name.toLowerCase().replace(' ', '_')
 
         const station = new Tent(req.body)
         await station.save()
