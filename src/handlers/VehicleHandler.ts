@@ -1,11 +1,12 @@
 import Vehicle from '../models/vehicle.model'
 import { diveraHandler, ioServer, missionDiaryHandler } from '../index'
 import sprechWHandler from './SprechWHandler'
+import operationHandler from './OperationHandler'
 
 const vehicleHandler = {
 
     getVehicles: async () => {
-        return await Vehicle.find().populate('station').populate('type').populate('Operation')
+        return await Vehicle.find().populate('station').populate('type').populate('operation')
     },
 
     createVehicle: async (vehicleData: any) => {
@@ -32,8 +33,16 @@ const vehicleHandler = {
     },
 
     setOperation: async (vehicleID: string, operation: string) => {
+        const vehicle = Vehicle.findOneAndUpdate({ _id: vehicleID }, { operation }, { new: true })
+        ioServer.sendPullFMS()
+        return vehicle // @TODO: Check if Operation is Set
+    },
+
+    removeOperation: async (vehicleID: string) => {
+        const operation: any = null
         return Vehicle.findOneAndUpdate({ _id: vehicleID }, { operation }, { new: true }) // @TODO: Check if Operation is Set
     },
+
 
 
     updateVehicle: async (vehicleID: any, vehicleData: any, islst: boolean) => {
@@ -51,6 +60,7 @@ const vehicleHandler = {
                     // @TODO: Add missionDiaryHandler for PRIO
                     break;
                 default:
+                    if (vehicleData.fms == 2 || vehicleData.fms == 1) vehicleHandler.removeOperation(vehicle)
                     const result = await Vehicle.findOneAndUpdate({ _id: vehicleID }, vehicleData, { new: true })
                     if (vehicle.divera_id) await diveraHandler.setVehicleFMS({ fms: vehicleData.fms, id: vehicle.divera_id })
                     missionDiaryHandler.changeFMS({ name: vehicle.name, fms_old: vehicle.fms, fms_new: vehicleData?.fms, islst })
