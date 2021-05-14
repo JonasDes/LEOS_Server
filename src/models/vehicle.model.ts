@@ -2,7 +2,6 @@ import { getModelForClass, mongoose, prop, Ref } from "@typegoose/typegoose";
 import { StationSchema } from "./station.model"
 import { VehicleTypeSchema } from "./vehicletype.model";
 import { OperationSchema } from "./operation.model";
-import { ObjectId } from "mongoose";
 
 
 class Vehicle {
@@ -23,6 +22,12 @@ class Vehicle {
 
     @prop({ default: '6.000000' })
     public lng: string
+
+    @prop()
+    public keyplate: string
+
+    @prop()
+    public phone: number
 
     @prop({ ref: () => StationSchema, autopopulate: true })
     public station: Ref<StationSchema>

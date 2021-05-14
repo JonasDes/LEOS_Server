@@ -23,21 +23,21 @@ const operationHandler = {
     newOperation: async (newData: OperationSchema) => {
 
         let searchStringAddress = "";
-        for (const [key, value] of Object.entries(newData.address)) {
+        for (const [key, value] of Object.entries(newData?.address)) {
             searchStringAddress += value + "+"
         }
         let searchStringAddressDestination = "";
-        for (const [key, value] of Object.entries(newData.addressDestination)) {
+        for (const [key, value] of Object.entries(newData?.addressDestination)) {
             searchStringAddressDestination += value + "+"
         }
         const addressCoordinates = await axios.get("https://nominatim.openstreetmap.org/search?q=" + encodeURI(searchStringAddress) + "&format=json&polygon=1&addressdetails=1")
         const addressDestinationCoordinates = await axios.get("https://nominatim.openstreetmap.org/search?q=" + encodeURI(searchStringAddressDestination) + "&format=json&polygon=1&addressdetails=1")
-        newData.address.postcode = addressCoordinates.data[0].address.postcode
-        newData.address.street = addressCoordinates.data[0].address.road
-        newData.address.number = addressCoordinates.data[0].address.house_number
-        newData.addressDestination.postcode = addressDestinationCoordinates.data[0].address.postcode
-        newData.addressDestination.street = addressDestinationCoordinates.data[0].address.road
-        newData.addressDestination.number = addressDestinationCoordinates.data[0].address.house_number
+        newData.address.postcode = addressCoordinates.data[0]?.address.postcode
+        newData.address.street = addressCoordinates.data[0]?.address.road
+        newData.address.number = addressCoordinates.data[0]?.address.house_number
+        newData.addressDestination.postcode = addressDestinationCoordinates.data[0]?.address.postcode
+        newData.addressDestination.street = addressDestinationCoordinates.data[0]?.address.road
+        newData.addressDestination.number = addressDestinationCoordinates.data[0]?.address.house_number
         newData.mission = "602ac22c8bb6c947a06a4106" as any
         newData.timestamp = Date.now()
 
@@ -62,16 +62,18 @@ const operationHandler = {
             priority: ""
         }
         const newOP = {
-            keyword: newData.keyword,
-            address: newData.address,
-            vehicles: newData.vehicles,
-            message: newData.message,
-            addressDestination: newData.addressDestination,
+            keyword: newData?.keyword,
+            address: newData?.address,
+            vehicles: newData?.vehicles,
+            message: newData?.message,
+            addressDestination: newData?.addressDestination,
             priority: newData.priority
         }
         const delta = diff.getDiff(oldOP, newOP);
         const changes: any = []
         delta.forEach(element => {
+            console.log(element);
+            
             if (!(element.path[0] === 'vehicles' && element.op === 'update')) changes.push(element)
         });
 

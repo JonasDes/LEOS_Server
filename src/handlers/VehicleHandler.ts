@@ -1,5 +1,6 @@
 import Vehicle from '../models/vehicle.model'
 import { diveraHandler, ioServer, missionDiaryHandler } from '../index'
+import sprechWHandler from './SprechWHandler'
 
 const vehicleHandler = {
 
@@ -43,8 +44,7 @@ const vehicleHandler = {
                     ioServer.sendEmergency(vehicle)
                     break;
                 case 5:
-                    ioServer.sendSprechW(vehicle)
-                    missionDiaryHandler.setSprechW({ name: vehicle.name, fms_new: vehicle.fms })
+                    sprechWHandler.newSprechW(vehicle)
                     break;
                 case 9:
                     ioServer.sendSprechWPrio(vehicle)
@@ -53,7 +53,7 @@ const vehicleHandler = {
                 default:
                     const result = await Vehicle.findOneAndUpdate({ _id: vehicleID }, vehicleData, { new: true })
                     if (vehicle.divera_id) await diveraHandler.setVehicleFMS({ fms: vehicleData.fms, id: vehicle.divera_id })
-                    missionDiaryHandler.changeVehicleStatus({ name: vehicle.name, fms_old: vehicle.fms, fms_new: vehicleData?.fms, islst })
+                    missionDiaryHandler.changeFMS({ name: vehicle.name, fms_old: vehicle.fms, fms_new: vehicleData?.fms, islst })
                     ioServer.sendPullFMS()
                     return true
             }
