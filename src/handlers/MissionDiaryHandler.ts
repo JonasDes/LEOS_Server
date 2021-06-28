@@ -1,4 +1,4 @@
-import MissionDiary, { LogTypes, MissionDiarySchema } from '../models/missiondiary.model'
+import { MissionDiary, LogTypes, MissionDiarySchema } from '../application/controller/'
 
 class MissionDiaryHandler {
 
@@ -37,6 +37,7 @@ class MissionDiaryHandler {
         entry.timestamp = Date.now()
         let missionDiary = new MissionDiary(entry)
         return await missionDiary.save()
+
     }
 
     static async editEntry(id: string, entry: MissionDiarySchema) {

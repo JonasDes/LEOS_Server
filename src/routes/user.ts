@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express'
 import userHandler from '../handlers/UserHandler'
-import { checkRole } from './auth'
+import { checkRole } from '../application/api/auth'
 
 const router = express.Router()
 

@@ -1,7 +1,5 @@
 import express, { Request, Response } from 'express'
-import Station from '../models/station.model'
-import UserRole from '../models/userrole.model'
-import User from '../models/user.model'
+import { Station, UserRole, User } from '../application/controller/'
 
 
 const router = express.Router()

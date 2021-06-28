@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express'
-import MissionDiary, { MissionDiarySchema } from '../models/missiondiary.model'
+import { MissionDiarySchema, MissionDiary } from '../application/controller/'
 import MissionDiaryHandler from '../handlers/MissionDiaryHandler';
 
 

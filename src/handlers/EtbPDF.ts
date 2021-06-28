@@ -2,7 +2,7 @@ import PdfPrinter from "pdfmake";
 import { TDocumentDefinitions } from "pdfmake/interfaces";
 import * as fs from "fs";
 import path from 'path'
-import MissionDiary from "../models/missiondiary.model";
+import {MissionDiary} from "../application/controller/";
 
 class EtbPDF {
     constructor(mission: string) {
@@ -109,10 +109,12 @@ class EtbPDF {
                     (currentPage, pageCount) => {
                         return { text: currentPage + " von " + pageCount, alignment: 'right', margin: [0, 0, 15, 0] }
                     },
+
                 permissions: {
                     printing: 'highResolution', // 'lowResolution'
                     modifying: false,
                     copying: false,
+
                     annotating: false,
                     fillingForms: false,
                     contentAccessibility: false,

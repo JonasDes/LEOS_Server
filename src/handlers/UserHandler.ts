@@ -1,4 +1,5 @@
-import User from '../models/user.model'
+import { User } from '../application/controller/'
+
 
 const userHandler = {
     getUsers: async () => {

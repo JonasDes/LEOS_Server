@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express'
-import Station from '../models/station.model'
-import Vehicle from '../models/vehicle.model'
+import { Station, Vehicle } from '../application/controller/'
+
 
 
 const router = express.Router()
@@ -35,7 +35,7 @@ router.get('/', async (req: Request, res: Response) => {
 router.get('/:id', async (req: Request, res: Response) => {
     const { id } = req.params
     try {
-        const stations = await Station.findOne({_id:id})
+        const stations = await Station.findOne({ _id: id })
         return res.status(200).send(stations)
     } catch (e) {
         res.status(500).send(e.message)

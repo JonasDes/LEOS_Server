@@ -1,16 +1,16 @@
 import express, { Request, Response } from 'express'
-import Patient from '../models/patient.model'
+import { Patient } from '../application/controller/'
 const router = express.Router()
-import { ioServer } from '../index'
+
 
 // CREATE
 router.post('/', async (req: Request, res: Response) => {
     try {
         console.log(req.body);
 
-        const station = new Patient(req.body)
-        await station.save()
-        res.status(200).send(station)
+        const patient = new Patient(req.body)
+        await patient.save()
+        res.status(200).send(patient)
 
     } catch (e) {
         res.status(500).send(e.message)

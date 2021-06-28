@@ -1,6 +1,8 @@
 import axios from 'axios'
 import io from 'socket.io-client'
+import { OperationSchema } from '../application/controller/operation/operation.model'
 import vehicleHandler from './VehicleHandler'
+import { Vehicle, VehicleSchema } from '../application/controller/'
 
 class DiveraHandler {
     private accesskey: string = process.env.DIVERA
@@ -25,7 +27,7 @@ class DiveraHandler {
 
             // ON RECONNECTING
             this.ioClient.on('reconnecting', () => {
-                console.log("Try to reconnect to Divera-Websocket...")
+                // console.log("Try to reconnect to Divera-Websocket...")
             })
 
             this.ioClient.on('cluster-vehicle', async (data: any) => {
@@ -39,10 +41,21 @@ class DiveraHandler {
             console.log(e)
         }
     }
+    async sendAlert(operation: OperationSchema) {
+        const rawVehicles: VehicleSchema[] = await Vehicle.find()
 
-    sendAlert() {
-        console.error("Ich kann noch keine Alarme versenden");
-        return false
+        let vehicles: string[] = []
+
+        operation.vehicles.forEach(vehicle => {
+            vehicles.push(rawVehicles.find((x: any) => x._id.toString() == vehicle).divera_id);
+
+        })
+        vehicles = vehicles.filter(el => {
+            return el != undefined;
+        });
+
+        return await axios.post(this.baseurl + "alarm" + "?&accesskey=" + this.accesskey, { title: operation.keyword, text: operation.message, vehicle_ids: vehicles })
+
     }
 
 

@@ -1,15 +1,22 @@
 import DiveraHandler from './handlers/DiveraHandler'
-import SocketHandler from './handlers/SocketHandler'
-import DatabaseHandler from './handlers/DatabaseHandler'
-import ServerHandler from './handlers/ServerHandler'
+
 import missionDiaryHandler from './handlers/MissionDiaryHandler';
+import { DiveraService, SocketService } from './application';
+import { DatabaseService, LoggerService, HttpService } from './infrastructure';
+import { databaseConfig, diveraConfig, loggerConfig, httpConfig } from './config';
+import { ControllerService } from './application/controller/controller.service';
 require('dotenv').config()
 
 
-const serverHandler = new ServerHandler()
-const ioServer = new SocketHandler(serverHandler.http)
-const diveraHandler = new DiveraHandler()
-const databaseHandler = new DatabaseHandler()
+const logService: LoggerService = new LoggerService(loggerConfig)
+const diveraService: DiveraService = new DiveraService(diveraConfig, logService)
+const httpService: HttpService = new HttpService(httpConfig, logService)
+const socketService: SocketService = new SocketService(httpService.http, logService)
+const databaseService: DatabaseService = new DatabaseService(databaseConfig, logService)
+const controllerService: ControllerService = new ControllerService(socketService, httpService, diveraService, logService)
+
+//const diveraHandler = new DiveraHandler()
 
 
-export { ioServer, serverHandler, diveraHandler, missionDiaryHandler, databaseHandler }
+
+export { diveraService, socketService, httpService, missionDiaryHandler }

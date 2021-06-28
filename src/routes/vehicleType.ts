@@ -1,6 +1,5 @@
-import express, {Request, Response} from 'express'
-import VehicleType from '../models/vehicletype.model'
-import Vehicle from '../models/vehicletype.model'
+import express, { Request, Response } from 'express'
+import { VehicleType, Vehicle } from '../application/controller'
 
 
 const router = express.Router()
@@ -30,9 +29,9 @@ router.get('/', async (req: Request, res: Response) => {
 
 // UPDATE
 router.post('/:id', async (req: Request, res: Response) => {
-    const {id} = req.params
+    const { id } = req.params
     try {
-        const vehicleType = await VehicleType.findOneAndUpdate({_id:id}, req.body, {new:true})
+        const vehicleType = await VehicleType.findOneAndUpdate({ _id: id }, req.body, { new: true })
         res.status(200).send(vehicleType)
     } catch (e) {
         res.status(500).send(e.message)
@@ -43,12 +42,12 @@ router.post('/:id', async (req: Request, res: Response) => {
 // DELETE
 router.delete('/:id', async (req: Request, res: Response) => {
     try {
-        const {id} = req.params
+        const { id } = req.params
         const vehicleType = await VehicleType.findById(id)
-        const vehicles = await Vehicle.find({station: id})
+        const vehicles = await Vehicle.find({ station: id })
         if (vehicles.length > 0) {
             if (!req.query.forced) {
-                res.status(400).send({message: "Es sind noch Fahrzeuge verknüpft", vehicles})
+                res.status(400).send({ message: "Es sind noch Fahrzeuge verknüpft", vehicles })
                 return
             } else {
                 await vehicleType.delete()
@@ -64,4 +63,4 @@ router.delete('/:id', async (req: Request, res: Response) => {
 
 })
 
-export {router as vehicleTypeRouter}
+export { router as vehicleTypeRouter }

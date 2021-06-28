@@ -1,5 +1,5 @@
-import SprechW, { SprechWSchema } from '../models/sprechw.model'
-import { diveraHandler, ioServer, missionDiaryHandler } from '../index'
+import { SprechW, SprechWSchema } from '../application/controller'
+import { socketService, missionDiaryHandler } from '../index'
 
 const sprechWHandler = {
 
@@ -15,7 +15,7 @@ const sprechWHandler = {
                 vehicle: data._id
             }
             const sprechW = new SprechW(entry)
-            ioServer.sendSprechW(data)
+            socketService.sendSprechW(data)
             return sprechW.save()
         } catch (error) {
             return { "success:": false, "message": error.message }

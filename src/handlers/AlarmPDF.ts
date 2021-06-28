@@ -2,8 +2,7 @@ import PdfPrinter from "pdfmake";
 import { TDocumentDefinitions } from "pdfmake/interfaces";
 import * as fs from "fs";
 import path from 'path'
-import Operation from '../models/operation.model'
-import Keyword from '../models/keyword.model'
+import { Operation } from '../application/controller/'
 
 class AlarmPDF {
     constructor(operationid: string) {
@@ -11,6 +10,8 @@ class AlarmPDF {
 
         async function makePDF() {
             const operation = await Operation.findOne({ _id: operationid }).populate('editor', 'name').populate('vehicles', 'name')
+            console.log(operation);
+
             const vehicles: any = []
             vehicles.push([{ text: 'Einsatzmittel', bold: true },
             { text: 'alarmiert', bold: true },
@@ -21,7 +22,7 @@ class AlarmPDF {
             { text: 'Ende', bold: true }])
 
             operation.vehicles.forEach((vehicle: any) => {
-                vehicles.push([vehicle.name, new Date(operation.timestamp * 1).toLocaleTimeString(), '13:40:01', '13:45:11', '14:00:46', '14:10:34', '14:25:21'])
+                vehicles.push([vehicle.name, new Date(operation.timestamp * 1).toLocaleTimeString(), '--:--:--', '--:--:--', '--:--:--', '--:--:--', '--:--:--'])
             })
 
 
@@ -38,6 +39,17 @@ class AlarmPDF {
             const printer = new PdfPrinter(fonts);
 
             const docDefinition: TDocumentDefinitions = {
+                permissions: {
+                    printing: 'highResolution', // 'lowResolution'
+                    modifying: false,
+                    copying: false,
+
+                    annotating: false,
+                    fillingForms: false,
+                    contentAccessibility: false,
+                    documentAssembly: false,
+                },
+                ownerPassword: "123",
                 footer: {
                     columns: [
                         { text: 'JDeseive', alignment: 'left', margin: [20, 0, 20, 50] },
@@ -121,12 +133,17 @@ class AlarmPDF {
                 ]
             };
 
+            try {
+                printer.createPdfKitDocument(docDefinition)
+                const pdfDoc = printer.createPdfKitDocument(docDefinition)
+                const writeStream = fs.createWriteStream(dirname + '/TEST.pdf');
+                pdfDoc.pipe(writeStream);
+                pdfDoc.end();
 
-            printer.createPdfKitDocument(docDefinition)
-            const pdfDoc = printer.createPdfKitDocument(docDefinition)
-            const writeStream = fs.createWriteStream(dirname + '/TEST.pdf');
-            pdfDoc.pipe(writeStream);
-            pdfDoc.end();
+            } catch (error) {
+                console.log(error);
+
+            }
 
 
         }

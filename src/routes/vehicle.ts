@@ -1,7 +1,4 @@
 import express, { Request, Response } from 'express'
-import Vehicle from '../models/vehicle.model'
-import Station from "../models/station.model";
-import { ioServer } from '../index'
 import vehicleHandler from '../handlers/VehicleHandler'
 
 const router = express.Router()

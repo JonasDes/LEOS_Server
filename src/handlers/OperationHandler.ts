@@ -1,8 +1,9 @@
-import Operation, { OperationSchema } from '../models/operation.model'
-import { diveraHandler, ioServer, missionDiaryHandler } from '../index'
+import { OperationSchema, Operation } from '../application/controller'
 import diff from 'recursive-diff'
 import axios from 'axios'
+import { socketService } from '../index'
 import vehicleHandler from './VehicleHandler'
+
 
 
 const operationHandler = {
@@ -32,15 +33,14 @@ const operationHandler = {
         }
         const addressCoordinates = await axios.get("https://nominatim.openstreetmap.org/search?q=" + encodeURI(searchStringAddress) + "&format=json&polygon=1&addressdetails=1")
         const addressDestinationCoordinates = await axios.get("https://nominatim.openstreetmap.org/search?q=" + encodeURI(searchStringAddressDestination) + "&format=json&polygon=1&addressdetails=1")
-        newData.address.postcode = addressCoordinates.data[0]?.address.postcode
-        newData.address.street = addressCoordinates.data[0]?.address.road
-        newData.address.number = addressCoordinates.data[0]?.address.house_number
-        newData.addressDestination.postcode = addressDestinationCoordinates.data[0]?.address.postcode
-        newData.addressDestination.street = addressDestinationCoordinates.data[0]?.address.road
-        newData.addressDestination.number = addressDestinationCoordinates.data[0]?.address.house_number
+
         newData.mission = "602ac22c8bb6c947a06a4106" as any
         newData.timestamp = Date.now()
-        newData.entryId = await Operation.countDocuments({ mission: newData.mission }) + 1
+        const datum = new Date
+        const datumId = datum.getFullYear().toString() + (datum.getMonth() + 1).toString().padStart(2, '0') + datum.getDate().toString().padStart(2, '0')
+
+        const operationCount = await Operation.countDocuments({ mission: newData.mission }) + 1
+        newData.entryId = datumId.toString() + "-" + operationCount
 
         const oldOP = {
             keyword: "",
@@ -73,10 +73,16 @@ const operationHandler = {
         const delta = diff.getDiff(oldOP, newOP);
         const changes: any = []
         delta.forEach(element => {
-            console.log(element);
 
-            if (!(element.path[0] === 'vehicles' && element.op === 'update')) changes.push(element)
+            if (!(element.path[0] === 'vehicles' && element.op === 'update') && element.val !== undefined) changes.push(element)
+
+
+
+
         });
+
+
+
 
         newData.edit = []
         if (changes.length !== 0) {
@@ -90,7 +96,8 @@ const operationHandler = {
             await vehicleHandler.setOperation(vehicle, operation._id)
 
         });
-        ioServer.sendPullOperation()
+        socketService.sendPullOperation()
+        //diveraHandler.sendAlert(operation)
         return operation.save()
     },
 
@@ -135,7 +142,7 @@ const operationHandler = {
             await vehicleHandler.setOperation(vehicle, id)
 
         });
-        ioServer.sendPullOperation()
+        socketService.sendPullOperation()
         return Operation.findOneAndUpdate({ _id: id }, newData, { new: true })
     },
 }

@@ -1,13 +1,13 @@
 import express, { Request, Response } from 'express'
-import { OperationSchema } from '../models/operation.model'
+import { OperationSchema } from '../application/controller/operation'
 import operationHandler from '../handlers/OperationHandler'
-import { checkRole } from './auth';
+import { checkRole } from '../application/api/auth'
 
 const router = express.Router()
 
 // CREATE
 router.post('/', async (req: Request, res: Response) => {
-    try {     
+    try {
         const operation = await operationHandler.newOperation(req.body)
         res.status(200).send(operation)
     } catch (e) {
