@@ -15,8 +15,5 @@ const socketService: SocketService = new SocketService(httpService.http, logServ
 const databaseService: DatabaseService = new DatabaseService(databaseConfig, logService)
 const controllerService: ControllerService = new ControllerService(socketService, httpService, diveraService, logService)
 
-//const diveraHandler = new DiveraHandler()
-
-
 
 export { diveraService, socketService, httpService, missionDiaryHandler }
