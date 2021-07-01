@@ -1,4 +1,5 @@
 
+import { MissionDiaryController } from "..";
 import { OperationController, StationController, UserController, VehicleController, VehicleTypeController } from "./";
 
 export interface Controller {
@@ -7,6 +8,7 @@ export interface Controller {
     stationController: StationController,
     userController: UserController,
     operationController: OperationController
+    missionDiaryController: MissionDiaryController
 }
 
 export interface IController {

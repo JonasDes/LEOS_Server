@@ -2,7 +2,7 @@ import express, { Router } from 'express'
 import { checkAuth } from './auth'
 
 import { authRoute } from './routes/auth'
-import { VehicleRoute, SocketService, DiveraService, OperationRoute, UserRoute, StationRoute, Controller, VehicleTypeRoute } from '../'
+import { VehicleRoute, SocketService, DiveraService, OperationRoute, UserRoute, StationRoute, Controller, VehicleTypeRoute, MissionDiaryRoute } from '../'
 import { LoggerService } from '../../infrastructure'
 
 
@@ -22,6 +22,7 @@ export class ApiRouter {
         * ROUTES W AUTH *
         ******************/
         this.router.use('/station', new StationRoute(controllers.stationController).router);
+        this.router.use('/missionDiary', new MissionDiaryRoute(controllers.missionDiaryController).router);
         this.router.use('/vehicle', new VehicleRoute(controllers.vehicleController).router);
         this.router.use('/vehicleType', new VehicleTypeRoute(controllers.vehicleTypeController).router);
         this.router.use('/user', new UserRoute(controllers.userController).router);

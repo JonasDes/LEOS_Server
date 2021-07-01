@@ -2,8 +2,7 @@ import { VehicleSchema } from "../";
 import { LogTypes, MissionDiary, MissionDiarySchema } from "./missiondiary.model";
 
 export class MissionDiaryController {
-    constructor() {
-    }
+    constructor() { }
 
     async addEntry(entry: MissionDiarySchema) {
         if (!entry.type) entry.type = LogTypes.REPORT
