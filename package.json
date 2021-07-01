@@ -3,7 +3,7 @@
   "name": "@jondes/leos-server",
   "version": "1.0.0",
   "author": "Jonas Deseive <jonas@jond.es>",
-  "description": "",
+  "description": "WebApp for, especially germany, civil protection organisations.",
   "engines": {
     "node": "^14",
     "npm": "^6"
