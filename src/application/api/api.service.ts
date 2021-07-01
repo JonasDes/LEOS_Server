@@ -16,7 +16,7 @@ export class ApiRouter {
     ) {
         this.router = express.Router()
         this.router.use('/auth', authRoute)
-        //router.use('/', checkAuth)
+        this.router.use('/', checkAuth)
 
         /*****************
         * ROUTES W AUTH *
