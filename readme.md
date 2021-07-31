@@ -35,8 +35,8 @@ Not all Handlers are already convertet into the controllers. And there are mis
 │   ├───controller  # where the magic happens
 │   ├───plugins     # like Divera or GLS.net
 │   └───socket      # handles realtime things
-├───assets
-│   └───fonts       # Assets i.a. for the PDF
+├───assets          # Assets i.a. for the PDF
+│   └───fonts       
 ├───config          # Configs for the Server and WebSocket
 ├───infrastructure  # Init Stuff for Database, Logger etc.
 ```
