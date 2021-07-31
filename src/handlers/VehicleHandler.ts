@@ -1,5 +1,5 @@
 import { Vehicle } from '../application/controller/'
-import { socketService, missionDiaryHandler } from '../index'
+//import { socketService, missionDiaryHandler } from '../index'
 import sprechWHandler from './SprechWHandler'
 
 const vehicleHandler = {
@@ -33,7 +33,7 @@ const vehicleHandler = {
 
     setOperation: async (vehicleID: string, operation: string) => {
         const vehicle = Vehicle.findOneAndUpdate({ _id: vehicleID }, { operation }, { new: true })
-        socketService.sendPullFMS()
+        //socketService.sendPullFMS()
         return vehicle // @TODO: Check if Operation is Set
     },
 
@@ -49,21 +49,21 @@ const vehicleHandler = {
         if ((vehicleData?.fms || vehicleData?.fms === 0) && vehicleData?.fms.toString() !== vehicle.fms.toString()) {
             switch (vehicleData.fms) {
                 case 0:
-                    socketService.sendEmergency(vehicle)
+                    //socketService.sendEmergency(vehicle)
                     break;
                 case 5:
                     sprechWHandler.newSprechW(vehicle)
                     break;
                 case 9:
-                    socketService.sendSprechWPrio(vehicle)
+                    //socketService.sendSprechWPrio(vehicle)
                     // @TODO: Add missionDiaryHandler for PRIO
                     break;
                 default:
                     if (vehicleData.fms == 2 || vehicleData.fms == 1) vehicleHandler.removeOperation(vehicle)
                     const result = await Vehicle.findOneAndUpdate({ _id: vehicleID }, vehicleData, { new: true })
                     //if (vehicle.divera_id) await diveraHandler.setVehicleFMS({ fms: vehicleData.fms, id: vehicle.divera_id })
-                    missionDiaryHandler.changeFMS({ name: vehicle.name, fms_old: vehicle.fms, fms_new: vehicleData?.fms, islst })
-                    socketService.sendPullFMS()
+                    //missionDiaryHandler.changeFMS({ name: vehicle.name, fms_old: vehicle.fms, fms_new: vehicleData?.fms, islst })
+                    //socketService.sendPullFMS()
                     return true
             }
         } else {

@@ -1,7 +1,7 @@
 import { OperationSchema, Operation } from '../application/controller'
 import diff from 'recursive-diff'
 import axios from 'axios'
-import { socketService } from '../index'
+//import { socketService } from '../index'
 import vehicleHandler from './VehicleHandler'
 
 
@@ -96,7 +96,7 @@ const operationHandler = {
             await vehicleHandler.setOperation(vehicle, operation._id)
 
         });
-        socketService.sendPullOperation()
+        //socketService.sendPullOperation()
         //diveraHandler.sendAlert(operation)
         return operation.save()
     },
@@ -142,7 +142,7 @@ const operationHandler = {
             await vehicleHandler.setOperation(vehicle, id)
 
         });
-        socketService.sendPullOperation()
+        //socketService.sendPullOperation()
         return Operation.findOneAndUpdate({ _id: id }, newData, { new: true })
     },
 }

@@ -1,8 +1,7 @@
-import missionDiaryHandler from './handlers/MissionDiaryHandler';
-import { DiveraService, SocketService, ControllerService } from './application';
+import { ControllerService, DiveraService, SocketService } from './application';
 import { DatabaseService, LoggerService, HttpService } from './infrastructure';
 import { databaseConfig, diveraConfig, loggerConfig, httpConfig } from './config';
-require('dotenv').config()
+require('dotenv').config
 
 
 const logService: LoggerService = new LoggerService(loggerConfig)
@@ -12,5 +11,3 @@ const socketService: SocketService = new SocketService(httpService.http, logServ
 new DatabaseService(databaseConfig, logService)
 new ControllerService(socketService, httpService, diveraService, logService)
 
-
-export { diveraService, socketService, httpService, missionDiaryHandler }
