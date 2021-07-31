@@ -1,13 +1,14 @@
 import express, { Request, Response, NextFunction } from 'express'
 import jwt from 'jsonwebtoken'
-import { UserRoleSchema, UserSchema, User } from '../../controller'
+import { UserRoleSchema, UserSchema, User } from '../../controller/'
 
 
 export async function checkAuth(req: Request, res: Response, next: NextFunction) {
     const bearerHeader = req.headers.authorization;
     if (bearerHeader !== undefined) {
         const bearer = bearerHeader.split(' ');
-        const token = bearer
+        const token = bearer[1]
+
         try {
             const jwtoken = await jwt.verify(token.toString(), "123456")
             const user = await User.findOne({ accesskey: (jwtoken as any).accesskey }).select('name').populate('role')

@@ -1,10 +1,8 @@
 import express, { Router } from 'express'
-import { checkAuth } from './auth'
+import { authRoute, checkAuth } from './auth'
 
-import { authRoute } from './routes/auth'
 import { VehicleRoute, SocketService, DiveraService, OperationRoute, UserRoute, StationRoute, Controller, VehicleTypeRoute, MissionDiaryRoute } from '../'
 import { LoggerService } from '../../infrastructure'
-
 
 export class ApiRouter {
     public router: Router
@@ -28,7 +26,7 @@ export class ApiRouter {
         this.router.use('/user', new UserRoute(controllers.userController).router);
         this.router.use('/operation', new OperationRoute(controllers.operationController).router);
     }
-
 }
+
 
 
