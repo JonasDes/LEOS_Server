@@ -1,6 +1,6 @@
 import express, { Request, Response, NextFunction } from 'express'
 import jwt from 'jsonwebtoken'
-import { User } from '../../../controller'
+import { User } from '../../controller'
 
 const router = express.Router()
 
