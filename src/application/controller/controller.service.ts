@@ -1,5 +1,6 @@
 import { HttpService, LoggerService } from "../../infrastructure";
-import { DiveraService, SocketService, ApiRouter } from "../";
+import { DiveraService, SocketService } from "../";
+import { ApiRouter } from '../api/api.service'
 import { Controller, VehicleController, StationController, OperationController, VehicleTypeController, UserController, MissionDiaryController } from "./";
 
 
@@ -19,9 +20,11 @@ export class ControllerService {
             operationController: new OperationController(socket, logger),
             missionDiaryController: new MissionDiaryController()
         }
-
         http.app.use('/api', new ApiRouter(socket, divera, this.controllers, logger).router)
 
+
     }
+
+
 
 }

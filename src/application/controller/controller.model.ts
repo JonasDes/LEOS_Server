@@ -11,11 +11,3 @@ export interface Controller {
     missionDiaryController: MissionDiaryController
 }
 
-export interface IController {
-    create(req: Express.Request, res: Express.Response): Promise<void>;
-    list(req: Express.Request, res: Express.Response): Promise<void>;
-    list_one(req: Express.Request, res: Express.Response): Promise<void>;
-    update(req: Express.Request, res: Express.Response): Promise<void>;
-    delete(req: Express.Request, res: Express.Response): Promise<void>;
-}
-
