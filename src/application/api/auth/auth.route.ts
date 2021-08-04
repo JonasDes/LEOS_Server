@@ -11,7 +11,7 @@ router.post('/login', async (req: Request, res: Response) => {
         if (username && password) {
             const user = await User.findOne({ name: username })
             if (user?.password === password) {
-                const token = jwt.sign({ accesskey: user.accesskey }, "123456", { expiresIn: '1d' })
+                const token = jwt.sign({ accesskey: user.accesskey }, process.env.JWT_SECRET, { expiresIn: '1d' })
                 res.status(200).send({ "token": token })
             } else {
                 res.status(401).send({ "success": false, "error": "Unauthorized" })

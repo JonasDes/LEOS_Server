@@ -10,7 +10,7 @@ export async function checkAuth(req: Request, res: Response, next: NextFunction)
         const token = bearer[1]
 
         try {
-            const jwtoken = await jwt.verify(token.toString(), "123456")
+            const jwtoken = await jwt.verify(token.toString(), process.env.JWT_SECRET)
             const user = await User.findOne({ accesskey: (jwtoken as any).accesskey }).select('name').populate('role')
             if (jwtoken && user) {
                 req.body.editor = user
