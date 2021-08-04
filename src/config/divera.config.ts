@@ -17,5 +17,5 @@ export const diveraConfig: DiveraOptions = {
         randomizationFactor: 0.5
     },
     baseurl: DIVERA_BASE_URL ?? 'https://divera247.com/api/',
-    accesskey: DIVERA_ACCESSKEY ?? 'Me21Yl8jhfJie1-oakPzr9wG585yT_IfkrwRKubHX_MciKWACRdgzK11H7dJI4Ur',
+    accesskey: DIVERA_ACCESSKEY,
 }
